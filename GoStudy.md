@@ -1,5 +1,5 @@
 ## Go语言学习笔记
-*1 简单的输出示例
+#1 简单的输出示例
 >go run 文件名:直接执行文件
 >编译:go build 文件名.会生成对应的可执行文件
 ```
@@ -14,5 +14,5 @@ fmt.Println("Hello,world!")
 package别名: import io "fmt"
 
 ```
-*2 import的包必须要用到,否则报错
+#2 import的包必须要用到,否则报错
 
