@@ -140,5 +140,90 @@ s2 :=[]int{1,2,3,45,2}
 copy(s2,s1)
 fmt.Println(s2)
 S2：[4 5 6 45 2]
+for _,v:=range m {
+    v=make(map[int]string)
+    v[1] = "aaa"
+}
+类似上面的复制是不成功的,因为v只是一个拷贝不是一个引用,附了值不会对原来的slice产生影响
 
-```   
+```
+#### 10.map
+```
+相当于python的dict
+make(map[int]string)
+迭代:
+for k,v:=range a
+
+```
+#### 11.function
+```
+func A(a int,b string)string
+不定长参数
+func B(a ...int)对应a是一个slice,参数为最后一个,值的拷贝
+函数也可以作为类型
+匿名函数:
+a:= func(){
+    fmt.Println("checknow")
+}
+a()
+闭包:
+func main() {
+    f:=close(1)
+    fmt.Println(f(2))
+
+}
+func close(x int)func(int)int{
+    return func(i int) int {
+        return i+x
+    }
+}
+defer:
+调用顺序的相反顺序来执行
+发生错误也会执行
+支持匿名函数调用
+常用于文件关闭，资源清理
+panic,recover
+panic可以在任何地方触发，recover只有在使用了defer的语句才能使用
+panic抛出异常
+defer要在panic之前才会生效
+defer func() {
+if err:=recover();err!=nil{
+    fmt.Println("recover in B")
+    }
+}()
+panic("This is a panic")
+
+示例:
+func main() {
+    var fs = [4]func(){}
+    for i := 0; i < 4; i++ {
+    //此处的i是值的拷贝
+    defer fmt.Println("defer i=", i)
+    //此处的i指向的是i的地址,下面循环调用到的时候I地址的值已经变为4
+    defer func() { fmt.Println("defer_closure i=", i) }()
+    fmt.Println(i)
+    fs[i] = func() {
+    //此处的i指向的是i的地址,下面循环调用到的时候I地址的值已经变为4
+    fmt.Println("closure i=", i)
+        }
+}
+
+for _,i:=range fs{
+    i()
+    }
+}
+输出:
+closure i= 4
+closure i= 4
+closure i= 4
+closure i= 4
+defer_closure i= 4
+defer i= 3
+defer_closure i= 4
+defer i= 2
+defer_closure i= 4
+defer i= 1
+defer_closure i= 4
+defer i= 0
+
+```
